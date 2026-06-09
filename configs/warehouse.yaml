@@ -1,0 +1,8 @@
+warehouse:
+  root: warehouse
+  bronze_path: warehouse/bronze
+  silver_path: warehouse/silver
+  gold_path: warehouse/gold
+
+partitioning:
+  event_date_column: event_date

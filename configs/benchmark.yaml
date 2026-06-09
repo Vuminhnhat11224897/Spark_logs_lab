@@ -1,0 +1,10 @@
+benchmarks:
+  default_sample_fraction: 0.01
+  output_dir: results/benchmark_runs
+  result_file: results/benchmark_runs/spark_benchmark_results.csv
+
+queries:
+  - daily_events
+  - event_type_summary
+  - session_depth
+  - brand_revenue

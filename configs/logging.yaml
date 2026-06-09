@@ -1,0 +1,4 @@
+logging:
+  level: ${SPARK_LOG_LEVEL:-WARN}
+  app_level: ${SPARK_TRAINING_LOG_LEVEL:-INFO}
+  format: "%(asctime)s %(levelname)s %(name)s - %(message)s"

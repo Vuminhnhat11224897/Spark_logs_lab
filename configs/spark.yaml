@@ -1,0 +1,14 @@
+app:
+  name_prefix: spark_training
+
+spark:
+  master: ${SPARK_MASTER_URL:-local[*]}
+  timezone: UTC
+  adaptive_query_execution: true
+  dynamic_partition_overwrite: true
+  shuffle_partitions: ${SPARK_SQL_SHUFFLE_PARTITIONS:-192}
+
+resources:
+  driver_memory: ${SPARK_DRIVER_MEMORY:-4g}
+  executor_memory: ${SPARK_EXECUTOR_MEMORY:-10g}
+  executor_cores: ${SPARK_EXECUTOR_CORES:-3}
