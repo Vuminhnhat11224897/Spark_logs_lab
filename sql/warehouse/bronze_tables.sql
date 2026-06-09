@@ -1,0 +1,2 @@
+-- Bronze table definitions will be added when the Parquet warehouse phase starts.
+-- Current phase: scaffold only, no table creation is executed.

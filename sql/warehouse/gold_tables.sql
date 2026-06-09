@@ -1,0 +1,2 @@
+-- Gold mart table definitions will be added when aggregate marts are implemented.
+-- Current phase: scaffold only, no table creation is executed.

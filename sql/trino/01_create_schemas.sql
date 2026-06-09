@@ -1,0 +1,2 @@
+-- Trino schema creation placeholder.
+-- Trino runtime is not implemented in this phase.

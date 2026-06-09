@@ -1,0 +1,2 @@
+-- Silver table definitions will be added when cleaned Parquet outputs are implemented.
+-- Current phase: scaffold only, no table creation is executed.

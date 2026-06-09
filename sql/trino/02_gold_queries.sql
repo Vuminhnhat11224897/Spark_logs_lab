@@ -1,0 +1,2 @@
+-- Gold serving queries placeholder.
+-- Add portfolio/demo SQL after Gold marts exist.
