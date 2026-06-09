@@ -1,0 +1,22 @@
+[project]
+name = "spark-training"
+version = "0.1.0"
+description = "Spark training project scaffold for batch data engineering, quality, audit, benchmarks, and serving"
+requires-python = ">=3.10"
+dependencies = [
+    "pyspark",
+    "pandas",
+    "pyyaml",
+    "pytest",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.setuptools.packages.find]
+where = ["src"]
