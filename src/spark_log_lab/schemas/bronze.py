@@ -1,0 +1,1 @@
+"""Bronze output schema definitions."""

@@ -1,0 +1,1 @@
+"""Silver output schema definitions."""

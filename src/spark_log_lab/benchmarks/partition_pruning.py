@@ -1,0 +1,1 @@
+"""Partition pruning benchmark placeholder."""

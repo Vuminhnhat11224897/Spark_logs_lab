@@ -1,0 +1,1 @@
+"""Gold mart schema definitions."""

@@ -1,0 +1,1 @@
+"""Join strategy benchmark placeholder."""

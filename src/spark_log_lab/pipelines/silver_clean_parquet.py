@@ -1,0 +1,1 @@
+"""Silver cleaning pipeline placeholder."""
