@@ -7,6 +7,9 @@ test:
 check-imports:
 	PYTHONPATH=src python3 -c "import spark_log_lab; from spark_log_lab.common.paths import project_root; print(project_root())"
 
+check-raw:
+	./scripts/submit_raw_check.sh
+
 quality:
 	python3 jobs/04_run_quality_checks.py
 
