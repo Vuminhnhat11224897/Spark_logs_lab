@@ -1,9 +1,10 @@
 # Spark Training
 
-Spark training project scaffold for batch data engineering practice.
+Spark training project for local batch data engineering practice.
 
-This repository is prepared for Phase 1. It keeps the raw input data and the Docker Compose file
-that already runs the local Spark cluster.
+The repository has completed Phase 0 cleanup and is ready for Phase 1. It keeps the original
+raw input data unchanged, preserves the existing Docker Compose Spark cluster, and provides a
+clean package layout for Raw -> Bronze -> Silver -> Gold development.
 
 ## Current Layout
 
@@ -49,6 +50,18 @@ spark_training/
 - `docker-compose.yml`
 - `.env`
 
+## Phase 0 Status
+
+Phase 0 is complete.
+
+- Project root: `/home/zseefvhu12/projects/spark_training`
+- Raw files are preserved under `data/raw/`.
+- Docker Compose is preserved at the project root.
+- Raw schemas match the physical CSV headers and field order.
+- Bronze schemas are defined with source fields first, derived fields next, and metadata fields last.
+- `ingest_time` is the standard ingestion timestamp metadata field.
+- Raw schema validation can be submitted to the Spark master through `scripts/submit_raw_check.sh`.
+
 ## Phase 1 Starting Point
 
 The root project folder is now:
@@ -63,4 +76,15 @@ The Python package is:
 src/spark_log_lab
 ```
 
-No Iceberg, Trino, or Flink runtime logic is implemented in this phase.
+Phase 1 should implement the first real pipeline step: read Raw CSV files, parse basic event
+date/time fields, add metadata, and write Bronze Parquet output.
+
+No Iceberg, Trino, or Flink runtime logic is implemented before the batch workflow is stable.
+
+## Quick Checks
+
+```bash
+python3 -m pytest -q
+PYTHONPATH=src python3 -m py_compile src/spark_log_lab/schemas/raw.py src/spark_log_lab/schemas/bronze.py jobs/00_check_raw_files.py
+./scripts/submit_raw_check.sh --sample-size 1 --null-sample-size 5
+```

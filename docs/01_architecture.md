@@ -8,20 +8,37 @@ Local Spark training project prepared for Bronze, Silver, Gold, quality, audit, 
 
 - Raw data is preserved under `data/raw/`.
 - Spark Docker Compose is preserved at the project root.
-- Iceberg, Trino, and Flink runtime logic are not implemented in this phase.
+- Raw schemas are defined and validated against the current CSV headers.
+- Bronze schemas are defined for the first batch ingestion output.
+- Iceberg, Trino, and Flink runtime logic are not implemented before the batch pipeline is stable.
 
 ## High-Level Flow
 
 ```text
 data/raw CSV
-  -> jobs/
+  -> jobs/00_check_raw_files.py
+  -> jobs/01_build_bronze.py
   -> src/spark_log_lab/pipelines/
-  -> warehouse/bronze
-  -> warehouse/silver
-  -> warehouse/gold
+  -> warehouse/bronze/
+  -> warehouse/silver/
+  -> warehouse/gold/
   -> quality + audit
   -> benchmark/report outputs
 ```
+
+## Phase 0 Contract
+
+Phase 0 owns project structure and source-data validation only. It must not mutate raw data.
+
+| Area | Current Decision |
+|---|---|
+| Project root | `/home/zseefvhu12/projects/spark_training` |
+| Package root | `src/spark_log_lab` |
+| Raw storage | `data/raw/` |
+| Bronze storage | `warehouse/bronze/` |
+| Raw schema types | `StringType` for all source columns |
+| Bronze metadata | `source_file`, `ingest_time`, `batch_id` |
+| Ingestion timestamp | `ingest_time` |
 
 ## Package Boundaries
 
