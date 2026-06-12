@@ -10,6 +10,9 @@ check-imports:
 check-raw:
 	./scripts/submit_raw_check.sh
 
+bronze:
+	./scripts/submit_bronze_build.sh
+
 quality:
 	python3 jobs/04_run_quality_checks.py
 
