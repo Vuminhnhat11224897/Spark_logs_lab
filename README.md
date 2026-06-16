@@ -89,3 +89,19 @@ PYTHONPATH=src python3 -m py_compile src/spark_log_lab/schemas/raw.py src/spark_
 ./scripts/submit_raw_check.sh --sample-size 1 --null-sample-size 5
 ./scripts/submit_bronze_check.sh --sample-size 1 --null-sample-size 5
 ```
+
+## Sample Data
+
+Generate small CSV samples for notebook exploration:
+
+```bash
+make samples
+```
+
+The generated files are written under `data/samples/`:
+
+- `raw/`: Raw-shaped CSV samples for the two source datasets
+- `bronze/`: parsed Bronze-shaped CSV samples for the two current Bronze tables
+
+Silver and Gold samples are intentionally not generated yet. Those layers should be designed from
+the current Raw/Bronze samples when their business contracts are clear.

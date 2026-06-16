@@ -33,3 +33,6 @@ show-structure:
 
 show-results:
 	ls -lah results || true
+
+samples:
+	python3 scripts/generate_sample_lakehouse_data.py

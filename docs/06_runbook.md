@@ -14,6 +14,17 @@ make check-imports
 python3 -m pytest -q
 ```
 
+## Sample Data For Notebooks
+
+Generate small CSV samples for local notebook exploration:
+
+```bash
+make samples
+```
+
+This writes ignored local files under `data/samples/raw/` and `data/samples/bronze/`.
+Silver and Gold sample outputs are intentionally left for later phases.
+
 ## Raw Schema Check
 
 Use this after changing `src/spark_log_lab/schemas/raw.py` or replacing Raw CSV files.
