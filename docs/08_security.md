@@ -13,6 +13,7 @@
 
 - `warehouse/` is runtime output.
 - `results/*.csv` is generated output.
+- `data/samples/` contains generated local notebook samples.
 - `logs/` is runtime output.
 
 ## Review Checklist
@@ -20,3 +21,4 @@
 - Do not commit secrets.
 - Do not commit large raw CSV files.
 - Do not commit generated Parquet or warehouse data.
+- Do not commit generated profile CSVs or sample data.
