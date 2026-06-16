@@ -9,6 +9,7 @@ def test_job_entrypoints_exist():
         "00_2_profile_raw.py",
         "01_build_bronze.py",
         "01_1_check_bronze.py",
+        "01_2_profile_bronze.py",
         "02_build_silver.py",
         "03_build_gold.py",
         "04_run_quality_checks.py",

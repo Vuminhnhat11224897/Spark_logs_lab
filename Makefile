@@ -19,6 +19,9 @@ bronze:
 check-bronze:
 	./scripts/submit_bronze_check.sh
 
+profile-bronze:
+	./scripts/submit_bronze_profile.sh
+
 quality:
 	python3 jobs/04_run_quality_checks.py
 

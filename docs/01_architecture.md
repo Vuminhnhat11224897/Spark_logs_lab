@@ -41,8 +41,9 @@ preservation. It must not mutate raw data.
 | Project root | `/home/zseefvhu12/projects/spark_training` |
 | Package root | `src/spark_log_lab` |
 | Raw storage | `data/raw/` |
-| Raw profiles | `results/data_profiles.csv` |
+| Raw profiles | `results/raw_data_profiles.csv` |
 | Bronze storage | `warehouse/bronze/` |
+| Bronze profiles | `results/bronze_data_profiles.csv` |
 | Raw schema types | `StringType` for all source columns |
 | Bronze metadata | `source_file`, `ingest_time`, `batch_id` |
 | Ingestion timestamp | `ingest_time` |

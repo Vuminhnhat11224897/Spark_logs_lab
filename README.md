@@ -60,7 +60,8 @@ Foundation and Bronze ingestion scaffolding are in place.
 - Raw files are preserved under `data/raw/`.
 - Docker Compose is preserved at the project root.
 - Raw schemas match the physical CSV headers and field order.
-- Raw profile metrics can be written to `results/data_profiles.csv`.
+- Raw profile metrics can be written to `results/raw_data_profiles.csv`.
+- Bronze profile metrics can be written to `results/bronze_data_profiles.csv`.
 - Bronze schemas are defined with source fields first, derived fields next, and metadata fields last.
 - `ingest_time` is the standard ingestion timestamp metadata field.
 - Raw schema validation can be submitted to the Spark master through `scripts/submit_raw_check.sh`.
@@ -95,6 +96,7 @@ PYTHONPATH=src python3 -m py_compile src/spark_log_lab/schemas/raw.py src/spark_
 ./scripts/submit_raw_profile.sh --dataset all
 ./scripts/submit_bronze_build.sh --batch-id dev_001
 ./scripts/submit_bronze_check.sh --sample-size 1 --null-sample-size 5
+./scripts/submit_bronze_profile.sh --dataset all
 ```
 
 ## Sample Data

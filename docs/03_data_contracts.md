@@ -66,10 +66,15 @@ date/time columns, and append ingestion metadata.
 - `price` should remain inspectable even if later numeric parsing fails.
 - `source_file`, `ingest_time`, and `batch_id` must be populated.
 
-## Raw Profile Output Contract
+## Profile Output Contract
 
-Raw profiling is observational only. It reads Raw CSV files with the committed Raw schemas and
-appends column-level metrics to `results/data_profiles.csv`; it must not rewrite Raw input files.
+Profiling is observational only. It reads existing layer datasets and appends column-level metrics
+without rewriting input files.
+
+Current profile tables:
+
+- Raw: `results/raw_data_profiles.csv`
+- Bronze: `results/bronze_data_profiles.csv`
 
 Current profiler fields:
 
@@ -79,8 +84,8 @@ Current profiler fields:
 - Cardinality and distribution: `approx_distinct_count`, `mode_value`, `mode_count`
 - Range and numeric stats: `min_value`, `max_value`, `avg_value`, `stddev_value`
 
-Profile appends are expected. Remove or archive `results/data_profiles.csv` manually when a fresh
-profile history is needed.
+Profile appends are expected. Remove or archive the target profile CSV manually when a fresh profile
+history is needed.
 
 ## Breaking Changes
 
@@ -90,4 +95,4 @@ profile history is needed.
 - Changing `event_type` semantics.
 - Changing `price` from numeric-compatible text to non-numeric text.
 - Removing Bronze metadata fields: `source_file`, `ingest_time`, or `batch_id`.
-- Renaming Raw profile output columns without updating docs and any downstream review notebooks.
+- Renaming profile output columns without updating docs and any downstream review notebooks.

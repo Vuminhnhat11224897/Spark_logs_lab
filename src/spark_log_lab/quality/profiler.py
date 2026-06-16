@@ -56,8 +56,12 @@ class ColumnProfile:
     profiled_at: str
 
 
+def data_profile_path(layer: str) -> Path:
+    return results_dir() / f"{layer}_data_profiles.csv"
+
+
 def profile_results_path() -> Path:
-    return results_dir() / "data_profiles.csv"
+    return data_profile_path("raw")
 
 
 def _safe_string(value: object) -> str | None:
@@ -167,7 +171,7 @@ def profile_dataframe(
     ]
 
 
-def write_profiles(profiles: list[ColumnProfile], path: Path | None = None) -> None:
+def write_profiles(profiles: list[ColumnProfile], path: Path | None = None) -> Path:
     output_path = path or profile_results_path()
     output_path.parent.mkdir(parents=True, exist_ok=True)
     write_header = not output_path.exists()
@@ -177,3 +181,4 @@ def write_profiles(profiles: list[ColumnProfile], path: Path | None = None) -> N
             writer.writeheader()
         for profile in profiles:
             writer.writerow(asdict(profile))
+    return output_path

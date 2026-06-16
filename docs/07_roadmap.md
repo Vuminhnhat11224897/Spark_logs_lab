@@ -17,7 +17,9 @@ Status: complete.
 - Implement `jobs/01_build_bronze.py`.
 - Read `data/raw/01-log-tracking.csv` and `data/raw/02-purchase-behavior.csv` with explicit schemas.
 - Add Raw profiling with `jobs/00_2_profile_raw.py`, `scripts/submit_raw_profile.sh`, and
-  `results/data_profiles.csv`.
+  `results/raw_data_profiles.csv`.
+- Add Bronze profiling with `jobs/01_2_profile_bronze.py`, `scripts/submit_bronze_profile.sh`, and
+  `results/bronze_data_profiles.csv`.
 - Add small sample-data generation for notebook exploration without committing generated samples.
 - Add typed `event_timestamp` and `event_date` fields.
 - Add metadata fields: `source_file`, `ingest_time`, `batch_id`.

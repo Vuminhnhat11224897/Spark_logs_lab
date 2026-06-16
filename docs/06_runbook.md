@@ -52,7 +52,7 @@ column.
 ./scripts/submit_raw_profile.sh --dataset all
 ```
 
-This appends column-level metrics to `results/data_profiles.csv`, including row count, null count,
+This appends column-level metrics to `results/raw_data_profiles.csv`, including row count, null count,
 null rate, approximate distinct count, mode, min/max, and numeric averages when available.
 
 ## Phase 1 Bronze Build
@@ -80,6 +80,17 @@ Expected result:
 - `purchase_behavior` reports no missing or extra Bronze fields.
 - `purchase_behavior` reports `same_order: True`.
 - Required metadata fields `source_file`, `ingest_time`, and `batch_id` are populated.
+
+## Bronze Profiling
+
+Use this after running the Bronze build and Bronze output check.
+
+```bash
+./scripts/submit_bronze_profile.sh --dataset all
+```
+
+This appends column-level metrics to `results/bronze_data_profiles.csv`. Bronze has parsed timestamp
+and date columns, so its profile is usually more useful than Raw for type-aware inspection.
 
 ## Common Issues
 

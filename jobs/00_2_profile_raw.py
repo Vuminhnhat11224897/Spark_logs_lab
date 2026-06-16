@@ -14,7 +14,7 @@ from spark_log_lab.common.paths import raw_dir
 from spark_log_lab.common.spark import create_spark_session
 from spark_log_lab.io.readers import read_csv
 from spark_log_lab.metadata.run_context import create_run_context
-from spark_log_lab.quality.profiler import profile_dataframe, write_profiles
+from spark_log_lab.quality.profiler import data_profile_path, profile_dataframe, write_profiles
 from spark_log_lab.schemas.raw import LOG_TRACKING_SCHEMA, PURCHASE_BEHAVIOR_SCHEMA
 
 
@@ -79,8 +79,8 @@ def main() -> int:
                 layer="raw",
                 dataset=dataset.name,
             )
-            write_profiles(profiles)
-            print(f"wrote {len(profiles)} column profiles for raw.{dataset.name}")
+            output_path = write_profiles(profiles, path=data_profile_path("raw"))
+            print(f"wrote {len(profiles)} column profiles for raw.{dataset.name} to {output_path}")
     finally:
         spark.stop()
 
