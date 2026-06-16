@@ -25,6 +25,11 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Profile Bronze Parquet tables with Spark.")
     parser.add_argument("--run-id", default=None, help="Optional profile run identifier.")
     parser.add_argument(
+        "--profile-version",
+        default=None,
+        help="Optional version suffix for writing a separate profile snapshot.",
+    )
+    parser.add_argument(
         "--dataset",
         choices=("all", "log_tracking", "purchase_behavior"),
         default="all",
@@ -73,7 +78,10 @@ def main() -> int:
                 layer="bronze",
                 dataset=dataset.name,
             )
-            output_path = write_profiles(profiles, path=data_profile_path("bronze"))
+            output_path = write_profiles(
+                profiles,
+                path=data_profile_path("bronze", dataset.name, version=args.profile_version),
+            )
             print(f"wrote {len(profiles)} column profiles for bronze.{dataset.name} to {output_path}")
     finally:
         spark.stop()

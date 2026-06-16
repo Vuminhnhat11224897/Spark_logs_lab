@@ -27,6 +27,7 @@ metastore_db/
 derby.log
 
 # Data outputs
+*.csv
 data/bronze/
 data/silver/
 data/gold/

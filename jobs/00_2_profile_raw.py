@@ -29,6 +29,11 @@ def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Profile Raw CSV datasets with Spark.")
     parser.add_argument("--run-id", default=None, help="Optional profile run identifier.")
     parser.add_argument(
+        "--profile-version",
+        default=None,
+        help="Optional version suffix for writing a separate profile snapshot.",
+    )
+    parser.add_argument(
         "--dataset",
         choices=("all", "log_tracking", "purchase_behavior"),
         default="all",
@@ -79,7 +84,10 @@ def main() -> int:
                 layer="raw",
                 dataset=dataset.name,
             )
-            output_path = write_profiles(profiles, path=data_profile_path("raw"))
+            output_path = write_profiles(
+                profiles,
+                path=data_profile_path("raw", dataset.name, version=args.profile_version),
+            )
             print(f"wrote {len(profiles)} column profiles for raw.{dataset.name} to {output_path}")
     finally:
         spark.stop()

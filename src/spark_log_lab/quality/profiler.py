@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import csv
+import re
 from dataclasses import asdict, dataclass
 from pathlib import Path
 
@@ -56,12 +57,24 @@ class ColumnProfile:
     profiled_at: str
 
 
-def data_profile_path(layer: str) -> Path:
-    return results_dir() / f"{layer}_data_profiles.csv"
+def _safe_name(value: str) -> str:
+    return re.sub(r"[^A-Za-z0-9_.-]+", "_", value).strip("_")
+
+
+def data_profile_path(layer: str, dataset: str, version: str | None = None) -> Path:
+    """Return the profile snapshot path for one layer dataset.
+
+    The default file is overwritten on each run. Pass a version to write a separate
+    immutable snapshot without mixing repeated profile rows into the current table.
+    """
+    stem = f"{_safe_name(layer)}_{_safe_name(dataset)}_profile"
+    if version:
+        stem = f"{stem}_{_safe_name(version)}"
+    return results_dir() / "data_profiles" / f"{stem}.csv"
 
 
 def profile_results_path() -> Path:
-    return data_profile_path("raw")
+    return data_profile_path("raw", "all")
 
 
 def _safe_string(value: object) -> str | None:
@@ -174,11 +187,9 @@ def profile_dataframe(
 def write_profiles(profiles: list[ColumnProfile], path: Path | None = None) -> Path:
     output_path = path or profile_results_path()
     output_path.parent.mkdir(parents=True, exist_ok=True)
-    write_header = not output_path.exists()
-    with output_path.open("a", newline="", encoding="utf-8") as handle:
+    with output_path.open("w", newline="", encoding="utf-8") as handle:
         writer = csv.DictWriter(handle, fieldnames=PROFILE_HEADER)
-        if write_header:
-            writer.writeheader()
+        writer.writeheader()
         for profile in profiles:
             writer.writerow(asdict(profile))
     return output_path

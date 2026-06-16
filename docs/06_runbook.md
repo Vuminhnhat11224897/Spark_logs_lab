@@ -52,8 +52,10 @@ column.
 ./scripts/submit_raw_profile.sh --dataset all
 ```
 
-This appends column-level metrics to `results/raw_data_profiles.csv`, including row count, null count,
-null rate, approximate distinct count, mode, min/max, and numeric averages when available.
+This writes column-level metrics including row count, null count, null rate, approximate distinct
+count, mode, min/max, and numeric averages when available. It overwrites one current snapshot per
+dataset under `results/data_profiles/`, for example `raw_log_tracking_profile.csv`. Use
+`--profile-version <version>` to write a separate snapshot.
 
 ## Phase 1 Bronze Build
 
@@ -89,8 +91,10 @@ Use this after running the Bronze build and Bronze output check.
 ./scripts/submit_bronze_profile.sh --dataset all
 ```
 
-This appends column-level metrics to `results/bronze_data_profiles.csv`. Bronze has parsed timestamp
-and date columns, so its profile is usually more useful than Raw for type-aware inspection.
+This overwrites one current snapshot per dataset under `results/data_profiles/`, for example
+`bronze_log_tracking_profile.csv`. Use `--profile-version <version>` to write a separate snapshot.
+Bronze has parsed timestamp and date columns, so its profile is usually more useful than Raw for
+type-aware inspection.
 
 ## Common Issues
 

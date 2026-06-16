@@ -68,13 +68,14 @@ date/time columns, and append ingestion metadata.
 
 ## Profile Output Contract
 
-Profiling is observational only. It reads existing layer datasets and appends column-level metrics
+Profiling is observational only. It reads existing layer datasets and writes column-level metrics
 without rewriting input files.
 
-Current profile tables:
+Current profile snapshots:
 
-- Raw: `results/raw_data_profiles.csv`
-- Bronze: `results/bronze_data_profiles.csv`
+- Raw current snapshot: `results/data_profiles/raw_<dataset>_profile.csv`
+- Bronze current snapshot: `results/data_profiles/bronze_<dataset>_profile.csv`
+- Versioned snapshot: `results/data_profiles/<layer>_<dataset>_profile_<profile-version>.csv`
 
 Current profiler fields:
 
@@ -84,8 +85,9 @@ Current profiler fields:
 - Cardinality and distribution: `approx_distinct_count`, `mode_value`, `mode_count`
 - Range and numeric stats: `min_value`, `max_value`, `avg_value`, `stddev_value`
 
-Profile appends are expected. Remove or archive the target profile CSV manually when a fresh profile
-history is needed.
+Current profile snapshots are overwritten on each run for the same layer/dataset. Use
+`--profile-version <version>` to create a separate snapshot instead of mixing repeated rows into
+the current profile file.
 
 ## Breaking Changes
 
