@@ -10,6 +10,9 @@ check-imports:
 check-raw:
 	./scripts/submit_raw_check.sh
 
+profile-raw:
+	./scripts/submit_raw_profile.sh
+
 bronze:
 	./scripts/submit_bronze_build.sh
 

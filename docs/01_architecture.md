@@ -2,14 +2,18 @@
 
 ## Goal
 
-Local Spark training project prepared for Bronze, Silver, Gold, quality, audit, benchmark, and serving phases.
+Local Spark training project prepared for Raw profiling, Bronze ingestion, Silver cleaning, Gold
+marts, quality, audit, benchmark, and serving phases.
 
-## Current Scope Before Phase 1
+## Current Scope
 
 - Raw data is preserved under `data/raw/`.
 - Spark Docker Compose is preserved at the project root.
 - Raw schemas are defined and validated against the current CSV headers.
-- Bronze schemas are defined for the first batch ingestion output.
+- Raw profiling writes column-level metrics for source CSVs.
+- Bronze schemas and the Bronze CSV-to-Parquet pipeline are defined for the first batch ingestion output.
+- Silver/Gold, benchmark, serving, and streaming modules mostly remain placeholders until the batch
+  workflow is extended.
 - Iceberg, Trino, and Flink runtime logic are not implemented before the batch pipeline is stable.
 
 ## High-Level Flow
@@ -17,6 +21,7 @@ Local Spark training project prepared for Bronze, Silver, Gold, quality, audit, 
 ```text
 data/raw CSV
   -> jobs/00_1_check_raw_files.py
+  -> jobs/00_2_profile_raw.py
   -> jobs/01_build_bronze.py
   -> src/spark_log_lab/pipelines/
   -> warehouse/bronze/
@@ -28,13 +33,15 @@ data/raw CSV
 
 ## Phase 0 Contract
 
-Phase 0 owns project structure and source-data validation only. It must not mutate raw data.
+Foundation work owns project structure, source-data validation, Raw profiling, and Raw data
+preservation. It must not mutate raw data.
 
 | Area | Current Decision |
 |---|---|
 | Project root | `/home/zseefvhu12/projects/spark_training` |
 | Package root | `src/spark_log_lab` |
 | Raw storage | `data/raw/` |
+| Raw profiles | `results/data_profiles.csv` |
 | Bronze storage | `warehouse/bronze/` |
 | Raw schema types | `StringType` for all source columns |
 | Bronze metadata | `source_file`, `ingest_time`, `batch_id` |

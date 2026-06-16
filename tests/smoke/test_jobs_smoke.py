@@ -6,6 +6,7 @@ def test_job_entrypoints_exist():
     expected = [
         "00_check_environment.py",
         "00_1_check_raw_files.py",
+        "00_2_profile_raw.py",
         "01_build_bronze.py",
         "01_1_check_bronze.py",
         "02_build_silver.py",

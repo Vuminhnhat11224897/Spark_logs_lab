@@ -43,6 +43,18 @@ Expected result:
 The Raw schema order must match the physical CSV header. In particular,
 `data/raw/02-purchase-behavior.csv` starts with `user_id`.
 
+## Raw Profiling
+
+Use this after Raw files are added or replaced and you want pandas-like profile metrics for each
+column.
+
+```bash
+./scripts/submit_raw_profile.sh --dataset all
+```
+
+This appends column-level metrics to `results/data_profiles.csv`, including row count, null count,
+null rate, approximate distinct count, mode, min/max, and numeric averages when available.
+
 ## Phase 1 Bronze Build
 
 Phase 1 should make `jobs/01_build_bronze.py` runnable. The job should read Raw CSV, create typed
