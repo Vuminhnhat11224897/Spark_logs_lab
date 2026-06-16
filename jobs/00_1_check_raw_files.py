@@ -122,7 +122,7 @@ def main() -> int:
             print(f"- {path}")
         return 1
 
-    spark = create_spark_session("00_check_raw_files")
+    spark = create_spark_session("00_1_check_raw_files")
     try:
         for dataset in datasets:
             check_dataset(spark=spark, dataset=dataset, args=args)

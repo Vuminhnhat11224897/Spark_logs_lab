@@ -85,6 +85,7 @@ No Iceberg, Trino, or Flink runtime logic is implemented before the batch workfl
 
 ```bash
 python3 -m pytest -q
-PYTHONPATH=src python3 -m py_compile src/spark_log_lab/schemas/raw.py src/spark_log_lab/schemas/bronze.py jobs/00_check_raw_files.py
+PYTHONPATH=src python3 -m py_compile src/spark_log_lab/schemas/raw.py src/spark_log_lab/schemas/bronze.py jobs/00_1_check_raw_files.py jobs/01_1_check_bronze.py
 ./scripts/submit_raw_check.sh --sample-size 1 --null-sample-size 5
+./scripts/submit_bronze_check.sh --sample-size 1 --null-sample-size 5
 ```

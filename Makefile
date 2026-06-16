@@ -13,6 +13,9 @@ check-raw:
 bronze:
 	./scripts/submit_bronze_build.sh
 
+check-bronze:
+	./scripts/submit_bronze_check.sh
+
 quality:
 	python3 jobs/04_run_quality_checks.py
 

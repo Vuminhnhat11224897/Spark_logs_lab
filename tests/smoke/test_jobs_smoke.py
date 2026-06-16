@@ -5,7 +5,9 @@ def test_job_entrypoints_exist():
     root = Path(__file__).resolve().parents[2]
     expected = [
         "00_check_environment.py",
+        "00_1_check_raw_files.py",
         "01_build_bronze.py",
+        "01_1_check_bronze.py",
         "02_build_silver.py",
         "03_build_gold.py",
         "04_run_quality_checks.py",

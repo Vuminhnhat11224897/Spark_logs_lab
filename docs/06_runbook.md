@@ -38,6 +38,26 @@ Phase 1 should make `jobs/01_build_bronze.py` runnable. The job should read Raw 
 Bronze fields, add `source_file`, `ingest_time`, `batch_id`, and write Parquet output under
 `warehouse/bronze/`.
 
+```bash
+./scripts/submit_bronze_build.sh --batch-id test_001
+```
+
+## Bronze Output Check
+
+Use this after running the Bronze build.
+
+```bash
+./scripts/submit_bronze_check.sh --sample-size 1 --null-sample-size 5
+```
+
+Expected result:
+
+- `log_tracking` reports no missing or extra Bronze fields.
+- `log_tracking` reports `same_order: True`.
+- `purchase_behavior` reports no missing or extra Bronze fields.
+- `purchase_behavior` reports `same_order: True`.
+- Required metadata fields `source_file`, `ingest_time`, and `batch_id` are populated.
+
 ## Common Issues
 
 ### Missing Raw File

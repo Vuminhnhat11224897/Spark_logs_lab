@@ -1,4 +1,9 @@
+import pytest
+
+
 def test_pipeline_modules_import():
+    pytest.importorskip("pyspark")
+
     from spark_log_lab.pipelines import (
         bronze_csv_to_parquet,
         gold_marts_parquet,

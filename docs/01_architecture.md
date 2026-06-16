@@ -16,7 +16,7 @@ Local Spark training project prepared for Bronze, Silver, Gold, quality, audit, 
 
 ```text
 data/raw CSV
-  -> jobs/00_check_raw_files.py
+  -> jobs/00_1_check_raw_files.py
   -> jobs/01_build_bronze.py
   -> src/spark_log_lab/pipelines/
   -> warehouse/bronze/

@@ -19,6 +19,7 @@ Status: complete.
 - Add typed `event_timestamp` and `event_date` fields.
 - Add metadata fields: `source_file`, `ingest_time`, `batch_id`.
 - Write Bronze Parquet output under `warehouse/bronze/`.
+- Add Bronze output checks for schema, sample rows, and required metadata.
 - Keep jobs importable and testable.
 
 ## Phase 2: Quality and Audit

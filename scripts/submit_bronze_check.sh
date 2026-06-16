@@ -6,10 +6,13 @@ DRIVER_MEMORY="${SPARK_DRIVER_MEMORY:-4g}"
 EXECUTOR_MEMORY="${SPARK_EXECUTOR_MEMORY:-10g}"
 EXECUTOR_CORES="${SPARK_EXECUTOR_CORES:-3}"
 
-docker exec spark-log-lab-master /opt/spark/bin/spark-submit \
+docker exec \
+  -e PYTHONPATH=/opt/spark-log-lab/src \
+  spark-log-lab-master \
+  /opt/spark/bin/spark-submit \
   --master "${SPARK_MASTER_URL}" \
   --deploy-mode client \
   --driver-memory "${DRIVER_MEMORY}" \
   --executor-memory "${EXECUTOR_MEMORY}" \
   --executor-cores "${EXECUTOR_CORES}" \
-  /opt/spark-log-lab/jobs/00_1_check_raw_files.py "$@"
+  /opt/spark-log-lab/jobs/01_1_check_bronze.py "$@"
