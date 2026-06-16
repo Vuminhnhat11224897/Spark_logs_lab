@@ -54,3 +54,4 @@ results/benchmark_runs/*
 .DS_Store
 .vscode/
 .idea/
+.serena/
