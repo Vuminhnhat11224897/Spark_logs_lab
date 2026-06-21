@@ -12,8 +12,11 @@ marts, quality, audit, benchmark, and serving phases.
 - Raw schemas are defined and validated against the current CSV headers.
 - Raw profiling writes column-level metrics for source CSVs.
 - Bronze schemas and the Bronze CSV-to-Parquet pipeline are defined for the first batch ingestion output.
-- Silver/Gold, benchmark, serving, and streaming modules mostly remain placeholders until the batch
-  workflow is extended.
+- Silver schemas, cleaning transforms, quarantine handling, and the Silver build job are implemented.
+- Gold, serving, and streaming modules mostly remain placeholders until the batch workflow is
+  extended further.
+- Spark benchmark scaffolding exists, but project-specific benchmark runs should be expanded after
+  Gold marts are available.
 - Iceberg, Trino, and Flink runtime logic are not implemented before the batch pipeline is stable.
 
 ## High-Level Flow
@@ -43,9 +46,13 @@ preservation. It must not mutate raw data.
 | Raw storage | `data/raw/` |
 | Raw profiles | `results/data_profiles/raw_<dataset>_profile.csv` |
 | Bronze storage | `warehouse/bronze/` |
+| Silver storage | `warehouse/silver/` |
+| Silver outputs | `log_tracking/`, `purchase_behavior/`, `quarantine/` |
 | Bronze profiles | `results/data_profiles/bronze_<dataset>_profile.csv` |
 | Raw schema types | `StringType` for all source columns |
 | Bronze metadata | `source_file`, `ingest_time`, `batch_id` |
+| Silver metadata | `source_file`, `ingest_time`, `batch_id`, `silver_processed_time` |
+| Silver quarantine | `SILVER_QUARANTINE_SCHEMA` keeps rejected rows as strings plus rule metadata |
 | Ingestion timestamp | `ingest_time` |
 
 ## Package Boundaries

@@ -12,6 +12,7 @@
 scripts/check_repo.sh
 make check-imports
 python3 -m pytest -q
+PYTHONPATH=src python3 -m py_compile src/spark_log_lab/schemas/silver.py src/spark_log_lab/pipelines/silver_clean_parquet.py jobs/02_build_silver.py
 ```
 
 ## Sample Data For Notebooks
@@ -23,7 +24,7 @@ make samples
 ```
 
 This writes ignored local files under `data/samples/raw/` and `data/samples/bronze/`.
-Silver and Gold sample outputs are intentionally left for later phases.
+Gold sample outputs are intentionally left for later phases.
 
 ## Raw Schema Check
 
@@ -57,11 +58,10 @@ count, mode, min/max, and numeric averages when available. It overwrites one cur
 dataset under `results/data_profiles/`, for example `raw_log_tracking_profile.csv`. Use
 `--profile-version <version>` to write a separate snapshot.
 
-## Phase 1 Bronze Build
+## Bronze Build
 
-Phase 1 should make `jobs/01_build_bronze.py` runnable. The job should read Raw CSV, create typed
-Bronze fields, add `source_file`, `ingest_time`, `batch_id`, and write Parquet output under
-`warehouse/bronze/`.
+The Bronze job reads Raw CSV, creates typed Bronze fields, adds `source_file`, `ingest_time`,
+`batch_id`, and writes Parquet output under `warehouse/bronze/`.
 
 ```bash
 ./scripts/submit_bronze_build.sh --batch-id test_001
@@ -96,6 +96,51 @@ This overwrites one current snapshot per dataset under `results/data_profiles/`,
 Bronze has parsed timestamp and date columns, so its profile is usually more useful than Raw for
 type-aware inspection.
 
+## Silver Check
+
+Use this after changing `src/spark_log_lab/schemas/silver.py`,
+`src/spark_log_lab/pipelines/silver_clean_parquet.py`, or `jobs/02_build_silver.py`.
+
+```bash
+PYTHONPATH=src python3 -m py_compile src/spark_log_lab/schemas/silver.py src/spark_log_lab/pipelines/silver_clean_parquet.py jobs/02_build_silver.py
+python3 -m pytest tests/unit/test_silver_clean_parquet.py -q
+```
+
+Expected result:
+
+- `LOG_TRACKING_SILVER_SCHEMA` remains importable.
+- `PURCHASE_BEHAVIOR_SILVER_SCHEMA` remains importable.
+- `SILVER_QUARANTINE_SCHEMA` remains importable.
+- Required-column and deduplication constants remain syntactically valid.
+- Silver transform tests pass for canonical dates, warning rules, hard quarantine, and duplicate handling.
+
+## Silver Build
+
+Use this after running the Bronze build.
+
+```bash
+PYTHONPATH=src python3 jobs/02_build_silver.py
+```
+
+If `.env` points to `spark://spark-master:7077`, the Docker Spark cluster must be running. For a
+local-only check without Docker, override the master:
+
+```bash
+SPARK_MASTER_URL='local[*]' PYTHONPATH=src python3 jobs/02_build_silver.py
+```
+
+Expected result:
+
+- Cleaned log tracking rows are written to `warehouse/silver/log_tracking/`.
+- Cleaned purchase behavior rows are written to `warehouse/silver/purchase_behavior/`.
+- Hard-failed rows are written to `warehouse/silver/quarantine/`.
+
+Silver row examples should show:
+
+- `event_date` derived from `event_timestamp`.
+- `cohort_week_start` as Monday and `cohort_week_end` as Sunday for purchase rows.
+- `dq_warnings` populated for warning-only issues.
+
 ## Common Issues
 
 ### Missing Raw File
@@ -120,3 +165,4 @@ Action:
 
 Do not delete or overwrite `data/raw/`.
 Do not reorder Raw schemas unless the source CSV header changes.
+Do not change Silver required-column or deduplication constants without updating the contract docs.

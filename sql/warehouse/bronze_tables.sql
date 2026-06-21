@@ -1,2 +1,5 @@
--- Bronze table definitions will be added when the Parquet warehouse phase starts.
--- Current phase: scaffold only, no table creation is executed.
+-- Bronze Parquet outputs are produced by jobs/01_build_bronze.py under warehouse/bronze/.
+-- SQL table registration/DDL is not implemented yet; this file is reserved for future warehouse
+-- table definitions over:
+--   - warehouse/bronze/log_tracking/
+--   - warehouse/bronze/purchase_behavior/

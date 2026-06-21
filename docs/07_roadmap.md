@@ -29,10 +29,16 @@ Status: complete.
 
 ## Phase 2: Silver Cleaning
 
-- Define Silver schemas from current Raw/Bronze observations.
-- Read Bronze Parquet and write cleaned Silver Parquet under `warehouse/silver/`.
-- Standardize event fields, cast analysis-ready numeric/date types, preserve lineage metadata.
-- Add Silver build and Silver output check scripts.
+Status: implemented, with follow-up operational scripts still pending.
+
+- Done: define Silver schemas from current Raw/Bronze observations.
+- Done: define Silver required-column constants and shared deduplication keys.
+- Done: define a Silver quarantine schema for rejected records.
+- Done: implement `jobs/02_build_silver.py` and `src/spark_log_lab/pipelines/silver_clean_parquet.py`.
+- Done: read Bronze Parquet and write cleaned Silver Parquet under `warehouse/silver/`.
+- Done: standardize event fields, cast analysis-ready numeric/date types, preserve lineage metadata.
+- Done: add transform-level Silver tests for canonical dates, warnings, hard quarantine, and duplicate handling.
+- Next: add Silver build and Silver output check scripts.
 
 ## Phase 3: Quality and Audit
 

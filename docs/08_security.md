@@ -12,6 +12,7 @@
 ## Generated Outputs
 
 - `warehouse/` is runtime output.
+- `warehouse/bronze/` and `warehouse/silver/` contain generated Parquet outputs.
 - `results/*.csv` is generated output.
 - `data/samples/` contains generated local notebook samples.
 - `logs/` is runtime output.

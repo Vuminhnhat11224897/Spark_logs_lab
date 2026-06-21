@@ -4,6 +4,9 @@
 
 Track Spark query and pipeline performance as the project evolves.
 
+Current runnable batch layers are Bronze and Silver. Benchmark work should use Silver outputs as
+the main analytical input until Gold marts are implemented.
+
 ## Planned Metrics
 
 | Metric | Description |
@@ -18,3 +21,9 @@ Track Spark query and pipeline performance as the project evolves.
 ## Output Location
 
 Benchmark outputs should be written under `results/benchmark_runs/`.
+
+Suggested first benchmark targets:
+
+- Silver build runtime for `jobs/02_build_silver.py`
+- Filter/query runtime over `warehouse/silver/log_tracking/` partitioned by `event_date`
+- Aggregations over `warehouse/silver/purchase_behavior/` by `event_date` and category levels

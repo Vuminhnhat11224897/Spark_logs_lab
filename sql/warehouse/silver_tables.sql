@@ -1,2 +1,6 @@
--- Silver table definitions will be added when cleaned Parquet outputs are implemented.
--- Current phase: scaffold only, no table creation is executed.
+-- Silver Parquet outputs are produced by jobs/02_build_silver.py under warehouse/silver/.
+-- SQL table registration/DDL is not implemented yet; this file is reserved for future warehouse
+-- table definitions over:
+--   - warehouse/silver/log_tracking/
+--   - warehouse/silver/purchase_behavior/
+--   - warehouse/silver/quarantine/
