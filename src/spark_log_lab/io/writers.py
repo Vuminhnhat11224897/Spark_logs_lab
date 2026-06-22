@@ -10,6 +10,8 @@ from typing import Literal
 
 from pyspark.sql import DataFrame
 
+from spark_log_lab.common.errors import ErrorCode, raise_error
+
 
 WriteMode = Literal["append", "overwrite", "error", "errorifexists", "ignore"]
 
@@ -21,7 +23,7 @@ def _path_str(path: str | Path) -> str:
 def _validate_write_mode(mode: str) -> None:
     valid_modes = {"append", "overwrite", "error", "errorifexists", "ignore"}
     if mode not in valid_modes:
-        raise ValueError(f"Invalid write mode: {mode}. Expected one of: {sorted(valid_modes)}")
+        raise_error(ErrorCode.INVALID_WRITE_MODE, mode=mode, valid_modes=sorted(valid_modes))
 
 
 def _validate_partition_columns(df: DataFrame, partition_by: list[str] | None) -> None:
@@ -30,7 +32,7 @@ def _validate_partition_columns(df: DataFrame, partition_by: list[str] | None) -
 
     missing = [column for column in partition_by if column not in df.columns]
     if missing:
-        raise ValueError(f"Partition columns not found in DataFrame: {missing}")
+        raise_error(ErrorCode.INVALID_PARTITION_COLUMNS, columns=missing)
 
 
 def write_parquet(
