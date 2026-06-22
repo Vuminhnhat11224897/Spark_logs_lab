@@ -2,13 +2,14 @@ from __future__ import annotations
 
 from pyspark.sql import functions as F
 
+from spark_log_lab.common.errors import ErrorCode, raise_error
 from spark_log_lab.metadata.run_context import utc_now_iso
 from spark_log_lab.quality.result_writer import write_quality_result
 
 
 def check_null_rate(df, column: str, max_rate: float, table_or_path: str, run_id: str) -> bool:
     if column not in df.columns:
-        raise ValueError(f"Column does not exist: {column}")
+        raise_error(ErrorCode.MISSING_COLUMN, column=column)
 
     total_count = df.count()
     null_count = df.filter(F.col(column).isNull()).count()

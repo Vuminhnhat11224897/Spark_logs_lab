@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pyspark.sql import functions as F
 
+from spark_log_lab.common.errors import ErrorCode, raise_error
 from spark_log_lab.metadata.run_context import utc_now_iso
 from spark_log_lab.quality.result_writer import write_quality_result
 
@@ -9,7 +10,7 @@ from spark_log_lab.quality.result_writer import write_quality_result
 def check_duplicate_count(df, key_columns: list[str], table_or_path: str, run_id: str) -> bool:
     missing = [column for column in key_columns if column not in df.columns]
     if missing:
-        raise ValueError(f"Columns do not exist: {', '.join(missing)}")
+        raise_error(ErrorCode.MISSING_COLUMNS, columns=missing)
 
     duplicate_count = (
         df.groupBy(*key_columns)
