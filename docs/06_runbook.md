@@ -103,6 +103,7 @@ Use this after changing `src/spark_log_lab/schemas/silver.py`,
 
 ```bash
 PYTHONPATH=src python3 -m py_compile src/spark_log_lab/schemas/silver.py src/spark_log_lab/pipelines/silver_clean_parquet.py jobs/02_build_silver.py
+PYTHONPATH=src python3 -m py_compile jobs/02_1_check_silver.py
 python3 -m pytest tests/unit/test_silver_clean_parquet.py -q
 ```
 
@@ -119,7 +120,7 @@ Expected result:
 Use this after running the Bronze build.
 
 ```bash
-PYTHONPATH=src python3 jobs/02_build_silver.py
+./scripts/submit_silver_build.sh
 ```
 
 If `.env` points to `spark://spark-master:7077`, the Docker Spark cluster must be running. For a
@@ -140,6 +141,26 @@ Silver row examples should show:
 - `event_date` derived from `event_timestamp`.
 - `cohort_week_start` as Monday and `cohort_week_end` as Sunday for purchase rows.
 - `dq_warnings` populated for warning-only issues.
+
+## Silver Output Check
+
+Use this after running the Silver build.
+
+```bash
+./scripts/submit_silver_check.sh --sample-size 1 --null-sample-size 5
+```
+
+For a local-only check without Docker, override the master:
+
+```bash
+SPARK_MASTER_URL='local[*]' PYTHONPATH=src python3 jobs/02_1_check_silver.py --sample-size 1 --null-sample-size 5
+```
+
+Expected result:
+
+- `log_tracking`, `purchase_behavior`, and `quarantine` report no missing or extra Silver fields.
+- Partitioned Silver tables report `same_order: True`, with `event_date` read back as the final partition column.
+- Required Silver fields have zero nulls in the sampled rows.
 
 ## Common Issues
 

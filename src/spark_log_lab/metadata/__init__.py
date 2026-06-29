@@ -1,1 +1,1 @@
-"""Metadata helpers for run context, audit, and lineage."""
+"""Metadata helpers for run context and audit output."""

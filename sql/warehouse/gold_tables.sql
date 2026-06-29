@@ -1,2 +1,0 @@
--- Gold mart table definitions will be added when aggregate marts are implemented.
--- SQL table registration/DDL is not implemented yet.

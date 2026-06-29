@@ -5,9 +5,6 @@ description = "Spark training project scaffold for batch data engineering, quali
 requires-python = ">=3.10"
 dependencies = [
     "pyspark",
-    "pandas",
-    "pyyaml",
-    "pytest",
 ]
 
 [tool.pytest.ini_options]

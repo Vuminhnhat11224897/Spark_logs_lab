@@ -1,1 +1,0 @@
-"""Spark Parquet benchmark placeholder."""

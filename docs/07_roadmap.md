@@ -29,7 +29,7 @@ Status: complete.
 
 ## Phase 2: Silver Cleaning
 
-Status: implemented, with follow-up operational scripts still pending.
+Status: complete.
 
 - Done: define Silver schemas from current Raw/Bronze observations.
 - Done: define Silver required-column constants and shared deduplication keys.
@@ -38,12 +38,14 @@ Status: implemented, with follow-up operational scripts still pending.
 - Done: read Bronze Parquet and write cleaned Silver Parquet under `warehouse/silver/`.
 - Done: standardize event fields, cast analysis-ready numeric/date types, preserve lineage metadata.
 - Done: add transform-level Silver tests for canonical dates, warnings, hard quarantine, and duplicate handling.
-- Next: add Silver build and Silver output check scripts.
+- Done: add `scripts/submit_silver_build.sh`.
+- Done: add `jobs/02_1_check_silver.py` and `scripts/submit_silver_check.sh`.
 
 ## Phase 3: Quality and Audit
 
 - Add runnable quality job over Silver outputs.
 - Record audit rows for pipeline runs.
+- Keep unfinished entrypoints failing with `FEATURE_NOT_IMPLEMENTED` until they run real work.
 
 ## Phase 4: Gold and Benchmark
 

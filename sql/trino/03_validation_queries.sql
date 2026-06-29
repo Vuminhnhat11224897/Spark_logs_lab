@@ -1,2 +1,0 @@
--- Warehouse validation queries placeholder.
--- Add checks after serving/runtime configuration exists.

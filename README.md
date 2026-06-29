@@ -5,8 +5,8 @@ Spark training project for local batch data engineering practice.
 The repository has completed the foundation work and now includes the first batch workflow
 building blocks: Raw schema validation, Raw profiling, sample-data generation for notebook
 exploration, Bronze Parquet ingestion, and Silver cleaning. It keeps the original raw input data
-unchanged, preserves the Docker Compose Spark cluster, and provides a clean package layout for
-Raw -> Bronze -> Silver -> Gold development.
+unchanged, preserves the Docker Compose Spark cluster, and keeps runtime code focused on the
+implemented Raw -> Bronze -> Silver batch workflow.
 
 ## Current Layout
 
@@ -19,10 +19,7 @@ spark_training/
 │       ├── io/
 │       ├── pipelines/
 │       ├── quality/
-│       ├── metadata/
-│       ├── benchmarks/
-│       ├── serving/
-│       └── streaming/
+│       └── metadata/
 ├── configs/
 ├── data/
 │   ├── raw/
@@ -72,6 +69,8 @@ Foundation, Bronze ingestion, and Silver cleaning are in place.
 - Raw schema validation can be submitted to the Spark master through `scripts/submit_raw_check.sh`.
 - Bronze build and Bronze output checks can be submitted through `scripts/submit_bronze_build.sh`
   and `scripts/submit_bronze_check.sh`.
+- Silver build and Silver output checks can be submitted through `scripts/submit_silver_build.sh`
+  and `scripts/submit_silver_check.sh`.
 
 ## Next Development Focus
 
@@ -87,7 +86,8 @@ The Python package is:
 src/spark_log_lab
 ```
 
-The next major pipeline step is building Gold marts from the cleaned Silver outputs.
+The next foundation step is runnable Silver quality checks and consistent audit records. Gold marts
+come after the Silver batch workflow is checked and documented.
 
 No Iceberg, Trino, or Flink runtime logic is implemented before the batch workflow is stable.
 
@@ -102,7 +102,8 @@ PYTHONPATH=src python3 -m py_compile src/spark_log_lab/schemas/silver.py src/spa
 ./scripts/submit_bronze_build.sh --batch-id dev_001
 ./scripts/submit_bronze_check.sh --sample-size 1 --null-sample-size 5
 ./scripts/submit_bronze_profile.sh --dataset all
-PYTHONPATH=src python3 jobs/02_build_silver.py
+./scripts/submit_silver_build.sh
+./scripts/submit_silver_check.sh --sample-size 1 --null-sample-size 5
 ```
 
 If `.env` points `SPARK_MASTER_URL` to the Docker Spark cluster, start it first with
@@ -123,4 +124,4 @@ The generated files are written under `data/samples/`:
 - `bronze/`: parsed Bronze-shaped CSV samples for the two current Bronze tables
 
 Gold samples are intentionally not generated yet. Silver output artifacts are produced by
-`jobs/02_build_silver.py` after Bronze Parquet exists.
+`jobs/02_build_silver.py` or `scripts/submit_silver_build.sh` after Bronze Parquet exists.

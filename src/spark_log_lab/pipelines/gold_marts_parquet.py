@@ -1,1 +1,0 @@
-"""Gold mart pipeline placeholder."""

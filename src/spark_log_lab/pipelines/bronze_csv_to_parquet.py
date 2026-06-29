@@ -1,4 +1,4 @@
-"""Bronze CSV-to-Parquet pipeline placeholder."""
+"""Bronze CSV-to-Parquet pipeline."""
 from __future__ import annotations
 
 from pyspark.sql import DataFrame
