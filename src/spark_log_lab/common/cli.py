@@ -1,16 +1,21 @@
 from __future__ import annotations
 
-import argparse
+import sys
+
+from spark_log_lab.common.errors import ErrorCode, build_error
 
 
-def add_common_pipeline_args(parser: argparse.ArgumentParser) -> argparse.ArgumentParser:
-    parser.add_argument("--batch-id", default=None, help="Optional batch identifier.")
-    parser.add_argument("--event-date", default=None, help="Optional event date, for example 2019-11-01.")
-    parser.add_argument("--sample", type=float, default=0.0, help="Optional sample fraction.")
-    parser.add_argument(
-        "--mode",
-        choices=["full-refresh", "date-partition"],
-        default="full-refresh",
-        help="Pipeline run mode.",
+def fail_with_error(code: ErrorCode, exit_code: int = 1, **context: object) -> int:
+    """Report a structured error for a command-line entrypoint."""
+    print(build_error(code, **context), file=sys.stderr)
+    return exit_code
+
+
+def fail_not_implemented(feature: str, next_step: str) -> int:
+    """Report an unfinished feature as a structured failure for job entrypoints."""
+    return fail_with_error(
+        ErrorCode.FEATURE_NOT_IMPLEMENTED,
+        exit_code=2,
+        feature=feature,
+        next_step=next_step,
     )
-    return parser

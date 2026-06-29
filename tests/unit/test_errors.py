@@ -36,6 +36,20 @@ def test_build_error_formats_sequence_context_for_message_only():
     assert error.context == {"columns": ["event_id", "session_id"]}
 
 
+def test_build_error_reports_missing_input_paths():
+    error = build_error(
+        ErrorCode.MISSING_INPUT_PATHS,
+        paths=["data/raw/missing.csv", "warehouse/bronze/missing"],
+    )
+
+    assert error.message == (
+        "Required input paths do not exist: data/raw/missing.csv, warehouse/bronze/missing"
+    )
+    assert error.context == {
+        "paths": ["data/raw/missing.csv", "warehouse/bronze/missing"],
+    }
+
+
 def test_build_error_accepts_registered_string_code():
     error = build_error("MISSING_COLUMN", column="event_id")
 

@@ -1,9 +1,13 @@
 from __future__ import annotations
 
+from spark_log_lab.common.cli import fail_not_implemented
+
 
 def main() -> int:
-    print("TODO Later phase: add Trino benchmark wrapper after serving config exists.")
-    return 0
+    return fail_not_implemented(
+        feature="06_run_trino_benchmarks",
+        next_step="add Trino runtime and serving config after Gold is tested",
+    )
 
 
 if __name__ == "__main__":

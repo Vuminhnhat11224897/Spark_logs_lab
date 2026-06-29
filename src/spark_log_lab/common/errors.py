@@ -12,8 +12,10 @@ from spark_log_lab.common.exceptions import ConfigurationError, DataQualityError
 class ErrorCode(str, Enum):
     """Stable error codes used by pipeline modules."""
 
+    FEATURE_NOT_IMPLEMENTED = "FEATURE_NOT_IMPLEMENTED"
     MISSING_COLUMN = "MISSING_COLUMN"
     MISSING_COLUMNS = "MISSING_COLUMNS"
+    MISSING_INPUT_PATHS = "MISSING_INPUT_PATHS"
     INVALID_WRITE_MODE = "INVALID_WRITE_MODE"
     INVALID_PARTITION_COLUMNS = "INVALID_PARTITION_COLUMNS"
 
@@ -27,6 +29,10 @@ class ErrorTemplate:
 
 
 ERROR_REGISTRY: dict[ErrorCode, ErrorTemplate] = {
+    ErrorCode.FEATURE_NOT_IMPLEMENTED: ErrorTemplate(
+        exception_type=ConfigurationError,
+        message="{feature} is not implemented yet. Next step: {next_step}",
+    ),
     ErrorCode.MISSING_COLUMN: ErrorTemplate(
         exception_type=DataQualityError,
         message="Column does not exist: {column}",
@@ -34,6 +40,10 @@ ERROR_REGISTRY: dict[ErrorCode, ErrorTemplate] = {
     ErrorCode.MISSING_COLUMNS: ErrorTemplate(
         exception_type=DataQualityError,
         message="Columns do not exist: {columns}",
+    ),
+    ErrorCode.MISSING_INPUT_PATHS: ErrorTemplate(
+        exception_type=DataQualityError,
+        message="Required input paths do not exist: {paths}",
     ),
     ErrorCode.INVALID_WRITE_MODE: ErrorTemplate(
         exception_type=DataQualityError,

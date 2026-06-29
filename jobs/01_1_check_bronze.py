@@ -1,17 +1,15 @@
 from __future__ import annotations
 
 import argparse
-import sys
 from dataclasses import dataclass
 from pathlib import Path
-
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-sys.path.append(str(PROJECT_ROOT / "src"))
 
 from pyspark.sql import DataFrame, SparkSession
 from pyspark.sql import functions as F
 from pyspark.sql.types import StructType
 
+from spark_log_lab.common.cli import fail_with_error
+from spark_log_lab.common.errors import ErrorCode
 from spark_log_lab.common.paths import bronze_dir
 from spark_log_lab.common.spark import create_spark_session
 from spark_log_lab.io.readers import read_parquet
@@ -149,10 +147,7 @@ def main() -> int:
 
     missing_paths = [str(dataset.path) for dataset in datasets if not dataset.path.exists()]
     if missing_paths:
-        print("Missing Bronze output paths:")
-        for path in missing_paths:
-            print(f"- {path}")
-        return 1
+        return fail_with_error(ErrorCode.MISSING_INPUT_PATHS, paths=missing_paths)
 
     spark = create_spark_session("01_1_check_bronze")
     try:

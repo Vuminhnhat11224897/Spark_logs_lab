@@ -1,15 +1,13 @@
 from __future__ import annotations
 
 import argparse
-import sys
 from dataclasses import dataclass
 from pathlib import Path
 
-PROJECT_ROOT = Path(__file__).resolve().parents[1]
-sys.path.append(str(PROJECT_ROOT / "src"))
-
 from pyspark.sql.types import StructType
 
+from spark_log_lab.common.cli import fail_with_error
+from spark_log_lab.common.errors import ErrorCode
 from spark_log_lab.common.paths import raw_dir
 from spark_log_lab.common.spark import create_spark_session
 from spark_log_lab.io.readers import read_csv
@@ -68,10 +66,7 @@ def main() -> int:
 
     missing_files = [str(dataset.path) for dataset in datasets if not dataset.path.exists()]
     if missing_files:
-        print("Missing raw files:")
-        for path in missing_files:
-            print(f"- {path}")
-        return 1
+        return fail_with_error(ErrorCode.MISSING_INPUT_PATHS, paths=missing_files)
 
     spark = create_spark_session("00_2_profile_raw")
     try:
