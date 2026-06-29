@@ -1,7 +1,7 @@
 from pathlib import Path
 
 
-def test_job_entrypoints_exist():
+def test_active_job_entrypoints_exist():
     root = Path(__file__).resolve().parents[2]
     expected = [
         "00_check_environment.py",
@@ -11,10 +11,20 @@ def test_job_entrypoints_exist():
         "01_1_check_bronze.py",
         "01_2_profile_bronze.py",
         "02_build_silver.py",
-        "03_build_gold.py",
-        "04_run_quality_checks.py",
-        "05_run_spark_benchmarks.py",
-        "06_run_trino_benchmarks.py",
-        "07_start_streaming_demo.py",
+        "02_1_check_silver.py",
     ]
     assert all((root / "jobs" / name).exists() for name in expected)
+
+
+def test_active_submit_scripts_exist():
+    root = Path(__file__).resolve().parents[2]
+    expected = [
+        "submit_raw_check.sh",
+        "submit_raw_profile.sh",
+        "submit_bronze_build.sh",
+        "submit_bronze_check.sh",
+        "submit_bronze_profile.sh",
+        "submit_silver_build.sh",
+        "submit_silver_check.sh",
+    ]
+    assert all((root / "scripts" / name).exists() for name in expected)
